@@ -38,7 +38,7 @@ func GetPerson(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "Person does not exists", http.StatusNotFound)
 }
 
-func PersonExists(id string) bool{
+func PersonExists(id string) bool {
 	isExists := false
 	for _, item := range people {
 		if item.ID == id {
@@ -54,13 +54,13 @@ func CreatePerson(w http.ResponseWriter, r *http.Request) {
 	queryValues := r.URL.Query()
 	var person Person
 	_ = json.NewDecoder(r.Body).Decode(&person)
-	if !PersonExists(params["id"]){
+	if !PersonExists(params["id"]) {
 		person.ID = params["id"]
 		person.Firstname = queryValues.Get("fn")
 		person.Lastname = queryValues.Get("ln")
 		people = append(people, person)
 		json.NewEncoder(w).Encode(people)
-	}else {
+	} else {
 		http.Error(w, "Person already exists", http.StatusFound)
 	}
 
